@@ -1,0 +1,94 @@
+﻿@using ShopLyraAPP.Models;
+@model IEnumerable<Slider>
+@{
+    ViewBag.Title = "Slider";
+    Layout = "~/Views/Shared/_AdminLayoutPage.cshtml";
+}
+<div class="mb-3">
+    <a href="/Config/AddOrUpdateSlider" type="button" class="btn btn-success btn-lg ">
+        <i class="far fa-plus mr-1"></i> Thêm mới
+    </a>
+</div>
+
+<div class="mt-4 mb-4 p-3 bg-white border shadow-sm lh-sm">
+    <div class="table-responsive product-list">
+        <table class="table table-bordered table-striped mt-3" id="SupplierList">
+            <thead>
+                <tr>
+                    <th>Hình ảnh</th>
+                    <th>Đườn dẫn</th>
+                    <th>Nội dung</th>
+                    <th>Trình tự</th>
+                    <th>Ngày viết</th>
+                    <th>Người viết</th>
+                    <th>Trạng thái</th>
+                    <th>Nổi bật</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                @foreach (Slider slider in Model)
+                {
+                    <tr id="row-@slider.ID">
+
+                    <td><img src="/images/Slider/@slider.Image" /></td>
+                    <td>@slider.Url</td>
+                    <td>@slider.ShortContent</td>
+                    <td>@slider.DisplayOrder</td>
+                    <td>@slider.CreateDate.Value.ToString("dd/MM/yyyy")</td>
+                    <td>@slider.CreateBy</td>
+                    <td>
+                        @if (slider.Active == true)
+                        {
+                            <i class="fas fa-check-circle"></i>
+                        }
+                        else
+                        {
+                            <i class="fas fa-times-square"></i>
+                        }
+                    </td>
+                    <td>
+                        @if (slider.Hot == true)
+                        {
+                            <i class="fas fa-check-circle"></i>
+                        }
+                        else
+                        {
+                            <i class="fas fa-times-square"></i>
+                        }
+                    </td>
+                    <td>
+                        <a href="/Config/AddOrUpdateSlider/@slider.ID" class="btn btn-success" title="Sửa"><i class="fal fa-edit"></i></a>
+                        <button class="btn btn-warning" onclick="deleteSlider(@slider.ID)" title="Xóa"><i class="fal fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+@section scripts{
+    <script>
+        $("#SupplierList").DataTable();
+        function deleteSlider(sliderID) {
+            if (confirm("Bạn có chắc muốn xóa nhà cung cấp đã chọn không?")) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Config/Deleteslider",
+                    data: { id: sliderID },
+                    success: function (res) {
+                        if (res == true) {
+                            $("#row-" + supplierID).remove();
+                            alert("Xóa thành công!");
+                        }
+                        else {
+                            alert("Không tìm thấy. Load lại trang!")
+                        }
+                    }
+                })
+            }
+        }
+    </script>
+}

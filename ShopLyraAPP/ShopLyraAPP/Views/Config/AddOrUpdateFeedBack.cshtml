@@ -1,0 +1,155 @@
+﻿@model ShopLyraAPP.Models.FeedBack
+
+@{
+    ViewBag.Title = "AddOrUpdateFeedBack";
+    Layout = "~/Views/Shared/_AdminLayoutPage.cshtml";
+}
+
+<h2 id="title"></h2>
+
+<form action="/Config/AddOrUpdateFeedBack" method="post" enctype="multipart/form-data">
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>FeedBack</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" name="Image" onchange="loadFile(event)" />
+                <div id="images-group">
+                    <div class="row no-gutters">
+                        @if (Model != null)
+                        {
+                            <div class="multiple-images-wrapper col-md-2">
+                                <img src="/images/FeedBack/@Model.Image" class="multipleImage img-thumbnail" />
+                                <a href="javascript:;" id="@Model.ID" class="btn btn-outline-dark" onclick="delImage(@Model.ID)">
+                                    <span>x</span>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.MetaTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.MetaTitle, new { htmlAttributes = new { @class = "form-control" } }) 
+                </div>
+            </div>*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.DisplayOrder, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DisplayOrder, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TitleContent, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TitleContent, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ShortNote, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ShortNote, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Active, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Active, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Hot, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Hot, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <button id="btnSubmit" class="btn btn-lg" type="submit"></button>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a href="/Config/ListFeedBack" class="btn btn-lg btn-outline-info">Quay lại</a>
+</div>
+
+@section scripts{
+    <script>
+        if ($("#ID").val() > 0) {
+            $("#title").html("Sửa thông tin liên hệ");
+            $("#btnSubmit").html('<i class="far fa-pen-square mr-1"></i>Lưu thay đổi');
+            $("#btnSubmit").addClass("btn-primary")
+        }
+        else {
+            $("#ID").val(0);
+            $("#title").html("Thêm mới thông tin liên hệ");
+            $("#btnSubmit").html('<i class="far fa-plus mr-1"></i> Thêm mới');
+            $("#btnSubmit").addClass("btn-success")
+        }
+
+        function loadFile(event) {
+            var files = event.target.files;
+            var acceptFileTypes = /^image\/(gif|jpe?g|png)$/i;
+            if (files[0]["type"].length && !acceptFileTypes.test(files[0]["type"])) {
+                alert("Chỉ chấp nhận định dạng jpeg, jpg, png, gif");
+                return false;
+            }
+            if (files["size"] > 4000000) {
+                alert("Dung lượng ảnh lớn hơn 4MB");
+                return false;
+            }
+            $("#images-group .row")
+                .html('<div class="multiple-images-wrapper col-md-2"><img src="' + URL.createObjectURL(event.target.files[0]) + '" class="multipleImage img-thumbnail" /><a href="javascript:;" id="' + 0 + '" class="btn btn-outline-dark" onclick="deleteImage(' + 0 + ')"><span>x</span></a></div>');
+        }
+        function deleteImage(divid) {
+            if (confirm('Bạn có chắc xóa ảnh này?')) {
+                $('#' + divid).parent().fadeOut().remove();
+            }
+        }
+
+        function delImage(imgID) {
+            if (confirm("Bạn có chắc muốn xóa ảnh không?(Sẽ xóa luôn trên server)")) {
+                $.ajax({
+                    type: "Post",
+                    url: "/config/DeleteImageFeedBack",
+                    data: { id: imgID },
+                    success: function (res) {
+                        if (res == true) {
+                            alert("Xóa thành công!");
+                            $('#' + imgID).parent().fadeOut().remove();
+                        }
+                    }
+                })
+            }
+        }
+
+    </script>
+}

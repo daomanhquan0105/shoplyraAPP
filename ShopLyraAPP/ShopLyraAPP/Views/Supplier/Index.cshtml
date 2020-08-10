@@ -1,0 +1,89 @@
+﻿@using ShopLyraAPP.Models;
+@model IEnumerable<Supplier>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayoutPage.cshtml";
+}
+
+<div class="mb-3">
+    <a href="/Supplier/AddOrUpdateSupplier" @*onclick="AddUpdateSupplier(0)"*@  type="button" class="btn btn-success btn-lg ">
+        Thêm loại mới
+    </a>
+</div>
+
+<div class="mt-4 mb-4 p-3 bg-white border shadow-sm lh-sm">
+    <div class="table-responsive product-list">
+        <table class="table table-bordered table-striped mt-3" id="SupplierList">
+            <thead>
+                <tr>
+                    <th>Tên Nhà cung cấp</th>
+                    <th>Bí danh</th>
+                    <th>Hình ảnh</th>
+                    <th>Logo</th>
+                    <th>Số điện thoại</th>
+                    <th>Email</th>
+                    <th>Thao tác</th> 
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                @foreach (Supplier supplier in Model)
+                {
+                    <tr id="row-@supplier.ID">
+
+                        <td>@supplier.Name</td>
+                        <td>@supplier.Alias</td>
+                        <td><img src="@supplier.Location/@supplier.Image" class="img-thumbnail" /> </td>
+                        <td><img src="@supplier.Location/@supplier.Logo" class="img-thumbnail" /> </td>
+                        <td>@supplier.Phone</td>
+                        <td>@supplier.Email</td>
+                        <td>
+                            <a href="/Supplier/AddOrUpdateSupplier/@supplier.ID" @*onclick="AddUpdateSupplier(@supplier.ID)"*@ class="btn btn-success" title="Sửa"><i class="fal fa-edit"></i></a>
+                            <button class="btn btn-warning" onclick="DeleteSupplier(@supplier.ID)" title="Xóa"><i class="fal fa-trash-alt"></i></button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<style>
+    #table-body img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+    }
+</style>
+
+@section scripts{
+    <script>
+        $("#SupplierList").DataTable();
+        function DeleteSupplier(supplierID) {
+            if (confirm("Bạn có chắc muốn xóa nhà cung cấp đã chọn không?")) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Supplier/DeleteSupplier",
+                    data: { id: supplierID },
+                    success: function (res) {
+                        if (res == true) {
+                            $("#row-" + supplierID).remove();
+                            alert("Xóa thành công!");
+                        }
+                        else {
+                            alert("Không tìm thấy. Load lại trang!")
+                        }
+                    }
+                })
+            }
+        }
+        //function AddUpdateSupplier(supplierID) {
+        //    $("#staticBackdrop").modal("show");
+        //    var url = "/Supplier/AddOrUpdateSupplier/" + supplierID;
+        //    $("#ModalForm").load(url, function () {
+        //        $("#formData").modal("show")
+        //    });
+        //}
+    </script>
+}

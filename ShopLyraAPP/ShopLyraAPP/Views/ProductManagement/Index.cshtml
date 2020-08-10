@@ -1,0 +1,99 @@
+﻿@using ShopLyraAPP.ViewModel;
+@using ShopLyraAPP.Models;
+
+@model ListProductViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayoutPage.cshtml";
+}
+<!-- Button trigger modal -->
+<div class="text-right">
+    <a href="/ProductManagement/CreateProduct" class="btn btn-success">
+        Sản phẩm mới
+    </a>
+</div>
+
+<div class="mt-4 mb-4 p-3 bg-white border shadow-sm lh-sm">
+    <div class="table-responsive product-list">
+        <table class="table table-bordered table-striped mt-3" id="listProduct">
+
+            <thead>
+                <tr>
+                    <th>Tên sản phẩm</th>
+                    <th>Mã sản phẩm</th>
+                    <th>Miêu tả ngắn</th>
+                    <th>Hình ảnh</th>
+                    <th>Đơn giá</th>
+                    <th>Tồn kho</th>
+                    <th>Nhà cung cấp</th>
+                    <th>Bảo hành</th>
+                    <th>Ngày tạo</th>
+                    <th>Hiện thị</th>
+                    <th>Hiện trang chủ</th>
+                    <th>Nổi bật</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Product product in Model.listProduct)
+                {
+                    <tr id="row-@product.ID">
+                        <td>@product.Name</td>
+                        <td>@product.Code</td>
+                        <td>
+                            @foreach (TagCategory tag in Model.listTag.Where(x => x.ProductID == product.ID))
+                            {
+                                <p>@tag.ProductCategory.Name</p>
+                            }
+                        </td>
+                        <td>@product.Description</td>
+                        <td>@product.Images</td>
+                        <td>@product.Price.ToString("#,##")</td>
+                        <td>@product.Quantity</td>
+                        <td>@*@product.Supplier.Name*@</td>
+                        <td>@product.Warranty tháng</td>
+                        <td>@product.CreateDate.Value.ToString("dd/MM/yyyy")</td>
+                        <td>@product.Active</td>
+                        <td>@product.ShowOnHome</td>
+                        <td>@product.HotProduct</td>
+                        <td>
+                            <a class="btn btn-success" href="/ProductManagement/EditProduct/@product.ID"><i class="fal fa-edit"></i></a>
+                            <button class="btn btn-danger" onclick="DeleteConfirm(@product.ID)" data-toggle="modal" data-target="#exampleModal"><i class="fal fa-trash-alt"></i></button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<style>
+    .table .table-light .btn i {
+        color: #FFFFFF;
+    }
+
+        .table .table-light .btn i:hover {
+            color: #343434;
+        }
+</style>
+
+@section scripts{
+
+    <script>
+        $("#listProduct").DataTable();
+        function DeleteConfirm(prID) {
+            if (confirm("Bạn có chắc muốn xóa sản phẩm đã chọn không?")) {
+                var prID = $("#ProductID").val();
+                $.ajax({
+                    type: "post",
+                    url: "/ProductManagement/DeleteProduct",
+                    data: { id: prID },
+                    success: function (res) {
+                        $("#exampleModal").modal("hide");
+                        $("#row-" + prID).remove();
+                        alert("Xóa thành công!");
+                    }
+                });
+            }
+        }
+    </script>    
+}

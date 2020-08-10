@@ -1,0 +1,92 @@
+﻿@using ShopLyraAPP.Models;
+@model IEnumerable<Post>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayoutPage.cshtml";
+    IEnumerable<TagPost> listTagPosts = ViewBag.listTagPosts;
+    IEnumerable<PostCategory> listPostCategory = ViewBag.listPostCategory;
+}
+
+<div class="text-right">
+    <a type="button" class="btn btn-success" href="/PostManagement/AddOrUpdatePost">
+        Tạo tin mới
+    </a>
+</div>
+
+<div class="mt-4 mb-4 p-3 bg-white border shadow-sm lh-sm">
+    <div class="table-responsive product-list">
+        <table class="table table-bordered table-striped mt-3" id="PostList">
+            <thead>
+                <tr>
+                    <th>Tiêu đề</th>
+                    <th>Hình ảnh</th>
+                    <th>Tag</th>
+                    <th>Trình tự</th>
+                    <th>Ngày tạo</th>
+                    <th>Hiện thị</th>
+                    <th>Hiện trang chủ</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                @foreach (Post post in Model)
+                {
+                    <tr id="row-@post.ID">
+                        <td>@post.Name</td>
+                        <td><img src="@post.Location/@post.Images" /></td>
+                        <td>
+                            @foreach (TagPost tag in listTagPosts.Where(x => x.PostID == post.ID).ToList())
+                            {
+                                PostCategory postCategory = listPostCategory.SingleOrDefault(x => x.ID == tag.CategoryID);
+                                <p>@postCategory.Name</p>
+                            }
+                        </td>
+                        <td>@post.DisplayOrder</td>
+                        <td>@post.CreateDate.Value.ToString("dd/MM/yyyy")</td>
+                        <td>@post.Active</td>
+                        <td>@post.ShowOnHome</td>
+                        <td>
+                            <a class="btn btn-success" href="/PostManagement/AddOrUpdatePost/@post.ID"><i class="fal fa-edit"></i></a>
+                            <button class="btn btn-warning" onclick="deletePost(@post.ID)"><i class="fal fa-trash-alt"></i></button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    #table-body img {
+        width: 100px;
+        height: 120px;
+        object-fit: cover;
+    }
+</style>
+
+@section scripts{
+    <script>
+        $("#PostList").DataTable();
+        function deletePost(postID) {
+            if (confirm("Bạn có chắc muốn xóa thông tin bài đăng này không?")) {
+                $.ajax({
+                    type: "post",
+                    url: "/PostManagement/DeletePost",
+                    data: { id: postID },
+                    success: function (res) {
+                        if (res == true) {
+                            $("#row-" + postID).remove();
+                            alert("Xóa thành công!");
+                        }
+                        else alert("Không tìm thấy bài đăng đấy. có thể đã bị xóa vui lòng load lại trang!");
+                    },
+                    Error: function () {
+                        alert("Xóa bị lỗi!");
+                        return false;
+                    }
+                })
+            }
+        }
+    </script>
+}

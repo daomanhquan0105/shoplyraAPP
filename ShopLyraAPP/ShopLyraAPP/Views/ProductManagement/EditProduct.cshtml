@@ -1,0 +1,272 @@
+﻿@model ShopLyraAPP.Models.Product
+
+@{
+    ViewBag.Title = "EditProduct";
+    Layout = "~/Views/Shared/_AdminLayoutPage.cshtml";
+}
+
+<h2>Sản phẩm mới</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    <div class="form-horizontal container">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row text-right">
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <div class="col-form-label col-md-4">
+                        <label>Tên sản phẩm</label>
+                    </div>
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-form-label col-md-4">
+                        <label>Giá tiền</label>
+                    </div>
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-form-label col-md-4">
+                        <label>Nhà cung cấp</label>
+                    </div>
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.SupplierID, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.SupplierID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-form-label col-md-4">
+                        <label>Ngày tạo</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="date" class="form-control" value="" />
+                        @Html.ValidationMessageFor(model => model.CreateDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-form-label col-md-4">
+                        <label>Trạng thái</label>
+                    </div>
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-form-label col-md-4">
+                        <label>Active</label>
+                    </div>
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Active, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Active, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-form-label col-md-4">
+                        <label>Thứ tự hiển thị</label>
+                    </div>
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.DisplayOrder, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DisplayOrder, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <div class="col-form-label col-md-4">
+                        <label>Mã sản phẩm</label>
+                    </div>
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-form-label col-md-4">
+                        <label>Tồn kho</label>
+                    </div>
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-form-label col-md-4">
+                        <label>Đổi trả</label>
+                    </div>
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Warranty, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Warranty, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-form-label col-md-4">
+                        <label>Người tạo</label>
+                    </div>
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.CreateBy, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CreateBy, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.ShowOnHome, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.ShowOnHome, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ShowOnHome, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.HotProduct, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.HotProduct, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.HotProduct, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-form-label col-md-4">
+                        <label>Thứ tự hiển thị</label>
+                    </div>
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.DisplayOrder, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DisplayOrder, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form_text">
+            <div class="alert alert-info">
+                <p class="btn btn-success fileinput-button">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>Chọn ảnh...</span>
+                    <input type="file" id="fileupload" name="files[]" accept="image/*" multiple="" />
+                </p><br />
+                - Chọn ảnh để upload: (gif, png, jpg, jpeg < 4MB, tối đa 10 ảnh/1 sp)<br />
+                - Ảnh đầu tiên sẽ là ảnh đại diện<br />
+            </div>
+            <div id="progress" class="progress">
+                <div class="progress-bar progress-bar-success"></div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-form-label col-md-2">
+                <label>Miêu tả ngắn</label>
+            </div>
+            <div class="col-md-10">
+                <textarea class="ckeditor"></textarea>
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-form-label col-md-2">
+                <label>Miêu tả</label>
+            </div>
+            <div class="col-md-10">
+                <textarea class="ckeditor"></textarea>
+                @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-4 col-md-10">
+                <input type="submit" value="Submit" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/multi-upload/jquery.iframe-transport.js"></script>
+    <script src="~/Scripts/multi-upload/jquery.fileupload.js"></script>
+    <script src="~/Scripts/jquery.maskMoney.min.js"></script>
+
+    <script>
+        $(function () {
+            $(".input-number").maskMoney({
+                precision: 0,
+                thousands: '.'
+            });
+            $("#ListImages").sortable();
+            $("#ListImages").disableSelection();
+        });
+
+        var i = 1;
+        $("#fileupload").fileupload({
+            add: function (e, data) {
+                var uploadErrors = [];
+                var acceptFileTypes = /^image\/(gif|jpe?g|png)$/i;
+                if (data.originalFiles[0]["type"].length && !acceptFileTypes.test(data.originalFiles[0]["type"])) {
+                    uploadErrors.push("Chỉ chấp nhận định dạng jpeg, jpg, png, gif");
+                }
+                if (data.originalFiles[0]["size"] > 4000000) {
+                    uploadErrors.push("Dung lượng ảnh lớn hơn 4MB");
+                }
+                var totalImg = $("#ListImages .thumb-img-box").length;
+                if (totalImg >= 10) {
+                    uploadErrors.push("Chỉ đăng tối đa 10 ảnh");
+                }
+                if (uploadErrors.length > 0) {
+                    alert(uploadErrors.join("\n"));
+                    return false;
+                } else {
+                    data.submit();
+                }
+                return true;
+            },
+            url: "/Uploader/Upload?r=" + Math.random(),
+            dataType: "json",
+            done: function (e, data) {
+                $.each(data.result.files, function (index, file) {
+                    $('#ListImages').append('<li><input type="hidden" name="Pictures" value ="' + file.name + '" /><img src="/images/products/' + file.name + '?w=80&h=80"/><a href="javascript:;" id="' + i + '" onclick="delfile(' + i + ')"><img src="/content/admin/icon-delete.png" alt="" style="vertical-align:middle" /></a></li>');
+                });
+                i = i + 1;
+                $("#progress").fadeOut(2000);
+            },
+            start: function () {
+                $("#progress .progress-bar").css("width", "0");
+                $("#progress").show();
+            },
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $("#progress .progress-bar").css("width", progress + "%");
+            }
+        }).prop('disabled', !$.support.fileInput).parent().addClass($.support.fileInput ? undefined : 'disabled');
+
+        function delfile(divid) {
+            if (confirm('Bạn có chắc xóa ảnh này?')) {
+                $('#' + divid).parent().fadeOut().remove();
+            }
+        }
+
+        function loadChildCategory(id) {
+            $.getJSON("/Vcms/GetChildCategory", { parentId: id }, function (data) {
+                var items = [];
+                items.push("<option value>Hãy chọn danh mục</option>");
+                $.each(data, function (key, val) {
+                    items.push("<option value='" + val.Id + "'>" + val.Name + "</option>");
+                });
+                $("#ChildCategoryId").html(items.join(""));
+            });
+        }
+        
+    </script>
+}
+

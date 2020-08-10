@@ -1,0 +1,136 @@
+﻿@using ShopLyraAPP.Models;
+@model PostCategory
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayoutPage.cshtml";
+    IEnumerable<PostCategory> listPostCategorty = ViewBag.listCategories;
+}
+
+<a href="/PostCategories/AddOrUpdate" class="btn btn-success">
+    Tạo tin mới
+</a>
+
+<table class="table mt-3">
+    <thead class="table-dark">
+        <tr>
+            <th>Tên danh mục</th>
+            <th>Trình tự</th>
+            <th>Ngày tạo</th>
+            <th>Người tạo</th>
+            <th>Hiện thị</th>
+            <th>Hiện trang chủ</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody class="table-light ">
+        @foreach (PostCategory postCategory in listPostCategorty)
+        {
+            <tr id="row-@postCategory.ID">
+                <td>@postCategory.Name</td>
+                <td>@postCategory.DisplayOrder</td>
+                <td>@postCategory.CreateDate.Value.ToString("dd/MM/yyyy")</td>
+                <td>@postCategory.CreateBy</td>
+                <td>
+                    @if (postCategory.Active == true)
+                    {
+                        <i class="far fa-check active"></i>
+                    }
+                    else
+                    {
+                        <i class="fad fa-times active"></i>
+                    }
+                </td>
+                <td>
+                    @if (postCategory.ShowOnHome == true)
+                    {
+                        <i class="far fa-check active"></i>
+                    }
+                    else
+                    {
+                        <i class="fad fa-times active"></i>
+                    }
+                </td>
+                <td>
+                    <a class="btn btn-success" href="/PostCategories/AddOrUpdate/@postCategory.ID">
+                        <i class="fal fa-edit"></i>
+                    </a>
+                    <button class="btn btn-warning" onclick="DeleteCategory(@postCategory.ID)">
+                        <i class="fal fa-trash-alt"></i>
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts{
+    <script>
+        function DeleteCategory(categoryID) {
+            if (confirm("Bạn có chắc muốn xóa danh mục này không?")) {
+                $.ajax({
+                    type: "POST",
+                    url: "/PostCategories/DeleteCategory",
+                    data: { id: categoryID },
+                    success: function (res) {
+                        if (res == true) {
+                            $("#row-" + categoryID).remove();
+                            alert("Xóa thành công!");
+                        }
+                        else {
+                            alert("Không tìm thấy danh mục. Bạn hay load lại trang.");
+                            window.location.href = "/PostCategories/Index";
+                        }
+                    },
+                    error: function (err) {
+                        alert("Lỗi!");
+                        return false;
+                    }
+                })
+            }
+        }
+        
+        function Add(categoryID) {
+            var url = "/PostCategories/GetPostCategory/" + categoryID;
+            $("#myModal").modal("show");
+            $("#AddOrUpdate").load(url);
+            $("#exampleModalLabel").html("Thêm danh mục mới");
+            $("#btnSubmit").html("Thêm mới");
+        }
+        function Update(categoryID) {
+            var url = "/PostCategories/GetPostCategory/" + categoryID;
+            $("#exampleModalLabel").html("Sửa danh mục");
+            $("#btnSubmit").html("Lưu thay đổi");
+            $("#myModal").modal("show");
+            $("#AddOrUpdate").load(url);
+        }
+        $("#btnSubmit").click(function () {
+            var formdata = $("#FormData").serialize();
+            var cateID = $("#ID").val();
+            $.ajax({
+                type: "post",
+                url: "/PostCategories/AddOrUpdate",
+                data: formdata,
+                success: function (res) {
+                    if (res == true) {
+                        if (cateID != 0) {
+                            alert("Sửa thành công!")
+                        }
+                        else {
+                            alert("Thêm thành công!")
+                        }
+                    }
+                    else {
+                        alert("Không tồn tại. Load lại trang.");
+                    }
+                    window.location.href = "/PostCategories/Index";
+                },
+                error: function () {
+                    alert("Lỗi!");
+                    return false;
+                }
+            })
+        })
+
+    </script>
+}

@@ -1,0 +1,115 @@
+﻿@using ShopLyraAPP.Models;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayoutPage.cshtml";
+    IEnumerable<ProductCategory> listProductCategory=ViewBag.listCategories;
+}
+<div class="mb-3">
+    <a href="/ProductCategories/AddOrUpdateCategory" type="button" class="btn btn-success btn-lg ">
+        Thêm loại mới
+    </a>
+</div>
+
+
+<div class="mt-4 mb-4 p-3 bg-white border shadow-sm lh-sm">
+    <div class="table-responsive product-list">
+        <table class="table table-bordered table-striped mt-3" id="productList">
+            <thead>
+                <tr>
+                    <th>Tên loại sản phẩm</th>
+                    <th>Hình ảnh</th>
+                    <th>Logo</th>
+                    <th>Trình tự</th>
+                    <th>Ngày tạo</th>
+                    <th>Người tạo</th>
+                    <th>Hiện thị</th>
+                    <th>Hiện trang chủ</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                @foreach (ProductCategory productCartegory in listProductCategory)
+                {
+                    <tr id="row-@productCartegory.ID">
+
+                        <td>@productCartegory.Name</td>
+                        <td>
+                            @if (productCartegory.Image.Trim().Length > 0)
+                            {
+                                <img src="~/images/productCategories/@productCartegory.Image" class="img-thumbnail" />
+                            }
+                        </td>
+                        <td>
+                            @if (productCartegory.Logo.Trim().Length > 0)
+                            {
+                                <img src="~/images/productCategories/@productCartegory.Logo" class="img-thumbnail" />
+                            }
+                        </td>
+                        <td>@productCartegory.DisplayOrder</td>
+                        <td>@productCartegory.CreateDate.Value.ToString("dd/MM/yyyy")</td>
+                        <td>@productCartegory.CreateBy</td>
+                        <td>
+                            @if (productCartegory.Active == true)
+                            {
+                                <i class="far fa-check active"></i>
+                            }
+                            else
+                            {
+                                <i class="fad fa-times active"></i>
+                            }
+                        </td>
+                        <td>
+                            @if (productCartegory.ShowOnHome == true)
+                            {
+                                <i class="far fa-check active"></i>
+                            }
+                            else
+                            {
+                                <i class="fad fa-times active"></i>
+                            }
+                        </td>
+                        <td>
+                            <a href="/ProductCategories/AddOrUpdateCategory/@productCartegory.ID" class="btn btn-success" title="Sửa"><i class="fal fa-edit"></i></a>
+                            <button class="btn btn-warning" onclick="DeleteCategory(@productCartegory.ID)" title="Xóa"><i class="fal fa-trash-alt"></i></button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+        
+
+
+    </div>
+    <style>
+        #table-body img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+    </style>
+
+    @section scripts{
+        <script>
+            $("#productList").DataTable();
+            function DeleteCategory(cateID) {
+                if (confirm("Bạn có chắc muốn xóa loại sản phẩm đã chọn không?")) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/ProductCategories/DeleteCategory",
+                        data: { id: cateID },
+                        success: function (res) {
+                            if (res == true) {
+                                $("#row-" + cateID).remove();
+                                alert("Xóa thành công!");
+                            }
+                            else {
+                                alert("Không tìm thấy. Load lại trang!")
+                            }
+                        }
+                    })
+                }
+            }
+        </script>
+
+    }

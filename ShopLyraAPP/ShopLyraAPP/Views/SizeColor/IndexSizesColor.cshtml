@@ -1,0 +1,422 @@
+﻿@using ShopLyraAPP.Models
+
+@{
+    ViewBag.Title = "Quản lý size , màu";
+    Layout = "~/Views/Shared/_AdminLayoutPage.cshtml";
+    IEnumerable<Size> listSize = ViewBag.listSize;
+    IEnumerable<Color> listColor = ViewBag.listColor;
+}
+
+<div class=" row">
+    <div class="col-md-6">
+        <button class="btn btn-success" onclick="AddSize(0)">
+            Size mới
+        </button>
+        <table class="table mt-3" id="tableDataSize">
+            <thead class="table-dark">
+                <tr>
+                    <th>Màu</th>
+                    <th>Thứ tự hiện thị</th>
+                    <th>Active</th>
+                    <th style="max-width:150px">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody class="border table-light">
+                @foreach (Size size in listSize)
+                {
+                    <tr id="row-@size.ID">
+                        <td>@size.Size1</td>
+                        <td>@size.DisplayOrder</td>
+                        <td>
+                            @if (size.Active == true)
+                            {
+                                <i class="far fa-check active"></i>
+                            }
+                            else
+                            {
+                                <i class="fad fa-times active"></i>
+                            }
+                        </td>
+                        <td>
+                            <button class="btn btn-success" onclick="EditConfim(@size.ID)"><i class="fal fa-edit"></i></button>
+                            <button class="btn btn-danger" onclick="DeleteConfirm(@size.ID)"><i class="fal fa-trash-alt"></i></button>
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6 text-right">
+        <button class="btn btn-success" onclick="AddColor(0)">
+            Màu mới
+        </button>
+        <table class="table mt-3" id="tableDataSize">
+            <thead class="table-dark">
+                <tr>
+                    <th>Màu</th>
+                    <th>Thứ tự hiện thị</th>
+                    <th>Active</th>
+                    <th style="max-width:150px">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody class="border table-light">
+                @foreach (Color color in listColor)
+                {
+                    <tr id="rowcolor-@color.ID">
+                        <td>@color.Color1</td>
+                        <td>@color.DisplayOrder</td>
+                        <td>
+                            @if (color.Active == true)
+                            {
+                                <i class="far fa-check active"></i>
+                            }
+                            else
+                            {
+                                <i class="fad fa-times active"></i>
+                            }
+                        </td>
+                        <td>
+                            <button class="btn btn-success" onclick="EditColorConfim(@color.ID)"><i class="fal fa-edit"></i></button>
+                            <button class="btn btn-danger" onclick="DeleteColorConfirm(@color.ID)"><i class="fal fa-trash-alt"></i></button>
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal-size">
+    <input id="IDSize" type="hidden" />
+    <div class="modal fade" id="DeleteSize" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Xóa Size</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Bạn có chắc chắn muốn xóa Size vừa chọn không?
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" onclick="DeleteSize()" data-dismiss="modal" class="btn btn-danger">Yes</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="AddUpdateSize" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="content-title"></h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="myForm">
+                        <input type="hidden" id="sizeID" name="ID" value="" />
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="col-form-label-lg"> Size </label>
+                            </div>
+                            <div class="col-md">
+                                <input id="sizeName" name="Size1" class="form-control" placeholder="Size" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="col-form-label-lg">
+                                    Thứ tự hiện thị
+                                </label>
+                            </div>
+                            <div class="col-md">
+                                <input id="displayOrder" name="DisplayOrder" type="number" min="0" value="1" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="col-form-label-lg"> Active </label>
+                            </div>
+                            <div class="col-md">
+                                <select id="DropDown" name="Active" class="form-control list-box tri-state" style="background-image:none">
+                                    <option value="">No set</option>
+                                    <option value="true">true</option>
+                                    <option value="false">false</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="btnSubmit" data-dismiss="modal" class="btn btn-primary btn-block"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-color">
+    <input id="IDColor" type="hidden" />
+    <div class="modal fade" id="DeleteColor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Xóa Màu</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Bạn có chắc chắn muốn xóa màu vừa chọn không?
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" onclick="DeleteColor()" data-dismiss="modal" class="btn btn-danger">Yes</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="AddUpdateColor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="content-title-color"></h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="FormColor">
+                        <input type="hidden" id="colorID" name="ID" value="" />
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="col-form-label-lg"> Color </label>
+                            </div>
+                            <div class="col-md">
+                                <input id="colorName" name="Color1" class="form-control" placeholder="Color" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="col-form-label-lg">
+                                    Thứ tự hiện thị
+                                </label>
+                            </div>
+                            <div class="col-md">
+                                <input id="DisplayOrderColor" name="DisplayOrder" type="number" min="0" value="1" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="col-form-label-lg"> Active </label>
+                            </div>
+                            <div class="col-md">
+                                <select id="DropDownColor" name="Active" class="form-control list-box tri-state" style="background-image:none">
+                                    <option value="">No set</option>
+                                    <option value="true">true</option>
+                                    <option value="false">false</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="btnSubmitColor" data-dismiss="modal" class="btn btn-primary btn-block"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<style>
+    .table .table-light .btn i {
+        color: #FFFFFF;
+    }
+
+        .table .table-light .btn i:hover {
+            color: #343434;
+        }
+</style>
+@section scripts{
+    <script>
+        //js Size
+        //Xóa
+        function DeleteColorConfirm(sizeID) {
+            $("#IDSize").val(sizeID);
+            $("#DeleteSize").modal("show");
+        }
+        function DeleteSize() {
+            var sizeID = $("#IDSize").val();
+            $.ajax({
+                type: "post",
+                url: "/SizeColor/DeleteSize",
+                data: { id: sizeID },
+                success: function (res) {
+                    $("#row-" + sizeID).remove();
+                    alert("Xóa thành công!");
+                },
+                Error: function () {
+                    alert("Lỗi!");
+                }
+            });
+        }
+        //ADD
+        function AddSize(sizeID) {
+            $("#myForm")[0].reset();
+            $("#sizeID").val(0);
+            $("#content-title").html("Thêm size mới");
+            $("#AddUpdateSize").modal();
+            $("#btnSubmit").html("Thêm mới")
+        }
+        //Update
+        function EditConfim(sizeID) {
+            var url = "/SizeColor/getSize?sizeID=" + sizeID;
+            $("#sizeID").val(sizeID);
+            $("#content-title").html("Sửa thông tin size");
+            $("#btnSubmit").html("Lưu thay đổi")
+            $("#AddUpdateSize").modal();
+
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function (data) {
+                    var obj = JSON.parse(data);
+                    $("#sizeID").val(obj.ID);
+                    $("#sizeName").val(obj.Size1);
+                    $("#displayOrder").val(obj.DisplayOrder);
+                    $("#DropDown option:selected").text(obj.Active);
+                    $("#DropDown option:selected").val(obj.Active);
+                }
+            })
+        }
+        //Save data
+        $("#btnSubmit").click(function () {
+            //var url = "/Size/SaveData";
+            var formData = $("#myForm").serialize();
+            var content = $("#sizeName").val();
+            if (content.length === 0) {
+                alert("Bạn chưa nhập size!");
+                return false;
+            }
+            else {
+                var sizeID = $("#sizeID").val();
+                var display = $("#displayOrder").val();
+                if (parseInt(display) > 0) {
+                    $.ajax({
+                        type: "post",
+                        url: "/SizeColor/SaveDataSize",
+                        data: formData,
+                        success: function (data) {
+                            //window.location.href = "/Size/IndexSizes";
+                            //alert("Thành công");
+                            if (sizeID > 0) {
+                                alert("Sửa thành công!")
+                            }
+                            else alert("Thêm mới thành công!")
+                            window.location.href = "/SizeColor/IndexSizesColor";
+                        },
+                        Error: function (err) {
+                            alert("Lỗi nhập liệu!");
+                        }
+                    })
+                }
+                else {
+                    alert("Thứ tự hiển thị phải lớn hơn 0");
+                    return false;
+                }
+            }
+        })
+        //js color
+
+        //add or update color
+        function AddColor(colorID) {
+            $("#FormColor")[0].reset;
+            $("#content-title-color").html("Thêm màu mới");
+            $("#colorID").val(colorID);
+            $("#btnSubmitColor").html("Thêm mới");
+            $("#AddUpdateColor").modal("show");
+        }
+        function EditColorConfim(colorID) {
+            $("#content-title-color").html("Sửa thông tin màu");
+            $("#colorID").val(colorID);
+            $("#btnSubmitColor").html("Lưu thay đổi");
+            $("#AddUpdateColor").modal("show");
+            $.ajax({
+                type: "GET",
+                url: "/SizeColor/getColor?colorID=" + colorID,
+                success: function (data) {
+                    var obj =       
+                    console.log(obj);
+                    $("#colorID").val(obj.ID);
+                    $("#colorName").val(obj.Color1);
+                    $("#DisplayOrderColor").val(obj.DisplayOrder);
+                    $("#DropDownColor option:selected").text(obj.Active);
+                    $("#DropDownColor option:selected").val(obj.Active);
+                }
+            })
+        }
+        $("#btnSubmitColor").click(function () {
+            var formData = $("#FormColor").serialize();
+            var content = $("#colorName").val();
+            if (content.length === 0) {
+                alert("Bạn chưa nhập màu!");
+                return false;
+            }
+            else {
+                var coloID = $("#colorID").val();
+                var displayColor = $("#DisplayOrderColor").val();
+                if (parseInt(displayColor) > 0) {
+                    $.ajax({
+                        type: "post",
+                        url: "/SizeColor/SaveDataColor",
+                        data: formData,
+                        success: function (data) {
+                            if (coloID > 0) {
+                                alert("Sửa thành công!")
+                            }
+                            else alert("Thêm mới thành công!")
+                            window.location.href = "/SizeColor/IndexSizesColor";
+                        },
+                        Error: function (err) {
+                            alert("Lỗi nhập liệu!");
+                        }
+                    })
+                }
+                else {
+                    alert("Thứ tự hiển thị phải lớn hơn 0");
+                    return false;
+                }
+            }
+        })
+        //delete color
+        function DeleteColorConfirm(colorID) {
+            $("#IDColor").val(colorID);
+            $("#DeleteColor").modal("show");
+        }
+        function DeleteColor() {
+            var colorID = $("#IDColor").val();
+            $.ajax({
+                type: "post",
+                url: "/SizeColor/DeleteColor",
+                data: { id: colorID },
+                success: function (res) {
+                    $("#rowcolor-" + colorID).remove();
+                    alert("Xóa thành công!");
+                },
+                Error: function () {
+                    alert("Lỗi!");
+                }
+            });
+        }
+    </script>
+}
+
+

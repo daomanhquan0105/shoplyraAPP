@@ -1,0 +1,191 @@
+﻿@using ShopLyraAPP.Models;
+@model Post
+
+@{
+    ViewBag.Title = "AddOrUpdatePost";
+    Layout = "~/Views/Shared/_AdminLayoutPage.cshtml";
+    IEnumerable<PostCategory> listCategory = ViewBag.listPostCategory;
+    IEnumerable<TagPost> listTagPost = ViewBag.listTagPost;
+}
+
+<h2 id="title-content"></h2>
+
+@using (Html.BeginForm("AddOrUpdatePost", "PostManagement", FormMethod.Post, new { @id = "myForm", @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.DisplayOrder, htmlAttributes: new { @class = "control-label col-md-4 " })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.DisplayOrder, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.CreateBy, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.CreateBy, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    @Html.Label("Tag", htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        <select multiple name="categories" class="combobox form-control">
+                            @foreach (PostCategory postCategory in listCategory)
+                            {
+                                TagPost tagPost = listTagPost.Where(x => x.CategoryID == postCategory.ID).FirstOrDefault();
+                                if (tagPost != null)
+                                {
+                                    <option value="@postCategory.ID" selected>@postCategory.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@postCategory.ID">@postCategory.Name</option>
+                                }
+                            }
+                        </select>
+                        @Html.ValidationMessageFor(model => model.DisplayOrder, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.CreateDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.CreateDate, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Active, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Active, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.ShowOnHome, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.ShowOnHome, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.HotPost, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.HotPost, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(model => model.Images, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" name="Images" onchange="loadFile(event)" />
+                <div id="images-group">
+                    <div class="row no-gutters">
+                        @if (Model != null)
+                        {
+                            <div class="multiple-images-wrapper col-md-2">
+                                <img src="@Model.Location/@Model.Images" class="multipleImage img-thumbnail" />
+                                <a href="javascript:;" id="@Model.ID" class="btn btn-outline-dark" onclick="delImage(@Model.ID)">
+                                    <span>x</span>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-success" type="submit" id="btnSubmit"></button>
+        </div>
+
+    </div>
+}
+<div>
+    <a href="/PostManagement/Index" class="btn btn-outline-primary">Quay lại</a>
+</div>
+@section scripts{
+    <script src="~/Scripts/chosen.jquery.js"></script>
+    <script>
+        //chosen
+        $(".combobox").chosen();
+
+        //image
+        function loadFile(event) {
+            var files = event.target.files;
+            var acceptFileTypes = /^image\/(gif|jpe?g|png)$/i;
+            if (files[0]["type"].length && !acceptFileTypes.test(files[0]["type"])) {
+                alert("Chỉ chấp nhận định dạng jpeg, jpg, png, gif");
+                return false;
+            }
+            if (files["size"] > 4000000) {
+                alert("Dung lượng ảnh lớn hơn 4MB");
+                return false;
+            }
+            $("#images-group .row")
+                .html('<div class="multiple-images-wrapper col-md-2"><img src="' + URL.createObjectURL(event.target.files[0]) + '" class="multipleImage img-thumbnail" /><a href="javascript:;" id="' + 0 + '" class="btn btn-outline-dark" onclick="deleteImage(' + 0 + ')"><span>x</span></a></div>');
+        }
+        function deleteImage(divid) {
+            if (confirm('Bạn có chắc xóa ảnh này?')) {
+                $('#' + divid).parent().fadeOut().remove();
+            }
+        }
+
+        if ($("#ID").val() > 0) {
+            $("#title-content").html("Sửa tin tức");
+            $("#btnSubmit").html("Lưu thay đổi");
+        }
+        else {
+            $("#title-content").html("Thêm tin tức mới");
+            $("#ID").val(0)
+            $("#btnSubmit").html("Thêm mới");
+        }
+
+        function delImage(imgID) {
+            if (confirm("Bạn có chắc muốn xóa ảnh không?(Sẽ xóa luôn trên server)")) {
+                $.ajax({
+                    type: "Post",
+                    url: "/PostManagement/deleteImage",
+                    data: { id: imgID },
+                    success: function (res) {
+                        if (res == true) {
+                            alert("Xóa thành công!");
+                            $('#' + imgID).parent().fadeOut().remove();
+                        }
+                    }
+                })
+            }
+        }
+
+    </script>
+}

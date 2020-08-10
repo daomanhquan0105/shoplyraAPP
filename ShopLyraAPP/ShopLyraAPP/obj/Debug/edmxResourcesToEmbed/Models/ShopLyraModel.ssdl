@@ -1,0 +1,619 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ShopLyraModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="About">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="MetaTitle" Type="varchar" MaxLength="250" />
+    <Property Name="Desciption" Type="nvarchar" MaxLength="500" />
+    <Property Name="Detail" Type="ntext" Nullable="false" />
+    <Property Name="CreateDate" Type="date" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="250" />
+    <Property Name="ModifileDate" Type="date" />
+    <Property Name="ModifileBy" Type="nvarchar" MaxLength="250" />
+    <Property Name="Active" Type="bit" />
+  </EntityType>
+  <EntityType Name="Assess">
+    <Key>
+      <PropertyRef Name="IDProduct" />
+      <PropertyRef Name="IDMember" />
+    </Key>
+    <Property Name="IDProduct" Type="bigint" Nullable="false" />
+    <Property Name="IDMember" Type="bigint" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="ShortContent" Type="nvarchar" MaxLength="1000" Nullable="false" />
+    <Property Name="NumberStar" Type="int" />
+    <Property Name="Content" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="CartItem">
+    <Key>
+      <PropertyRef Name="IDCart" />
+      <PropertyRef Name="IDProduct" />
+    </Key>
+    <Property Name="IDCart" Type="bigint" Nullable="false" />
+    <Property Name="IDProduct" Type="bigint" Nullable="false" />
+    <Property Name="Quantity" Type="int" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="InsertDate" Type="date" />
+  </EntityType>
+  <EntityType Name="Color">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Color" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="DisplayOrder" Type="int" />
+  </EntityType>
+  <EntityType Name="Config">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Phone" Type="varchar" MaxLength="12" />
+    <Property Name="ContentFooter" Type="nvarchar" MaxLength="1000" />
+    <Property Name="Address" Type="nvarchar(max)" />
+    <Property Name="LinkFast" Type="nvarchar" MaxLength="500" />
+    <Property Name="FacebookFanpage" Type="varchar" MaxLength="500" />
+    <Property Name="Contact" Type="nvarchar(max)" />
+    <Property Name="CreateDate" Type="date" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="250" />
+    <Property Name="ModifileDate" Type="date" />
+    <Property Name="ModifileBy" Type="nvarchar" MaxLength="250" />
+    <Property Name="Active" Type="bit" />
+  </EntityType>
+  <EntityType Name="FeedBack">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="MetaTitle" Type="varchar" MaxLength="250" />
+    <Property Name="TitleContent" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ShortNote" Type="nvarchar" MaxLength="1000" Nullable="false" />
+    <Property Name="Content" Type="ntext" Nullable="false" />
+    <Property Name="Active" Type="bit" />
+    <Property Name="Hot" Type="bit" />
+    <Property Name="DisplayOrder" Type="int" />
+  </EntityType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" Nullable="false" />
+    <Property Name="Account" Type="varchar" MaxLength="32" Nullable="false" />
+    <Property Name="Pssword" Type="varchar" MaxLength="500" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Phone" Type="varchar" MaxLength="12" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="Address" Type="varchar" MaxLength="250" />
+    <Property Name="IDCategory" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MemberCategories">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="Status" Type="bit" />
+  </EntityType>
+  <EntityType Name="Menu">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="Url" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="Active" Type="bit" />
+    <Property Name="ShowOnHome" Type="bit" />
+    <Property Name="DisplayOrder" Type="int" />
+  </EntityType>
+  <EntityType Name="MenuItem">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IDMenu" Type="int" />
+    <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="Url" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="Active" Type="bit" />
+    <Property Name="DisplayOrder" Type="int" />
+  </EntityType>
+  <EntityType Name="OrderItem">
+    <Key>
+      <PropertyRef Name="IDOrder" />
+      <PropertyRef Name="IDProduct" />
+    </Key>
+    <Property Name="IDOrder" Type="bigint" Nullable="false" />
+    <Property Name="IDProduct" Type="bigint" Nullable="false" />
+    <Property Name="QuantityPurchased" Type="int" Nullable="false" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="Orders">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" Nullable="false" />
+    <Property Name="IdMember" Type="bigint" Nullable="false" />
+    <Property Name="CreateDate" Type="date" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="250" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Payment" Type="int" />
+    <Property Name="ShipDate" Type="date" />
+    <Property Name="ShipBy" Type="nvarchar" MaxLength="250" />
+    <Property Name="Status" Type="bit" />
+    <Property Name="Remove" Type="bit" />
+  </EntityType>
+  <EntityType Name="Post">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="MetaTitle" Type="varchar" MaxLength="250" />
+    <Property Name="Description" Type="nvarchar" MaxLength="500" />
+    <Property Name="Images" Type="varchar(max)" Nullable="false" />
+    <Property Name="DisplayOrder" Type="int" />
+    <Property Name="Content" Type="ntext" Nullable="false" />
+    <Property Name="CreateDate" Type="date" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="100" />
+    <Property Name="Modifiledate" Type="date" />
+    <Property Name="ModifileBy" Type="nvarchar" MaxLength="100" />
+    <Property Name="Active" Type="bit" />
+    <Property Name="ShowOnHome" Type="bit" />
+    <Property Name="HotPost" Type="bit" />
+    <Property Name="Remove" Type="bit" />
+  </EntityType>
+  <EntityType Name="PostCategories">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="MetaTitle" Type="varchar" MaxLength="250" />
+    <Property Name="DisplayOrder" Type="int" />
+    <Property Name="CreateDate" Type="date" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="100" />
+    <Property Name="Modifiledate" Type="date" />
+    <Property Name="ModifileBy" Type="nvarchar" MaxLength="100" />
+    <Property Name="Active" Type="bit" />
+    <Property Name="ShowOnHome" Type="bit" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="MetaTitle" Type="varchar" MaxLength="250" />
+    <Property Name="Code" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="500" />
+    <Property Name="Images" Type="varchar(max)" Nullable="false" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="Quantity" Type="int" />
+    <Property Name="SupplierID" Type="int" Nullable="false" />
+    <Property Name="Detail" Type="ntext" Nullable="false" />
+    <Property Name="Warranty" Type="int" />
+    <Property Name="CreateDate" Type="date" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="100" />
+    <Property Name="Modifiledate" Type="date" />
+    <Property Name="ModifileBy" Type="nvarchar" MaxLength="100" />
+    <Property Name="DisplayOrder" Type="int" />
+    <Property Name="Status" Type="bit" />
+    <Property Name="Active" Type="bit" />
+    <Property Name="ShowOnHome" Type="bit" />
+    <Property Name="HotProduct" Type="bit" />
+    <Property Name="Remove" Type="bit" />
+  </EntityType>
+  <EntityType Name="ProductCarts">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CreateBy" Type="bigint" Nullable="false" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="ProductCategories">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="MetaTitle" Type="varchar" MaxLength="250" />
+    <Property Name="DisplayOrder" Type="int" />
+    <Property Name="SeoTitle" Type="nvarchar" MaxLength="250" />
+    <Property Name="Image" Type="varchar" MaxLength="250" />
+    <Property Name="Logo" Type="varchar" MaxLength="250" />
+    <Property Name="CreateDate" Type="date" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="100" />
+    <Property Name="Modifiledate" Type="date" />
+    <Property Name="ModifileBy" Type="nvarchar" MaxLength="100" />
+    <Property Name="Active" Type="bit" />
+    <Property Name="ShowOnHome" Type="bit" />
+  </EntityType>
+  <EntityType Name="Size">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Size" Type="varchar" MaxLength="5" Nullable="false" />
+    <Property Name="DisplayOrder" Type="int" />
+  </EntityType>
+  <EntityType Name="Sliders">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Image" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="250" />
+    <Property Name="MetaTitle" Type="varchar" MaxLength="250" />
+    <Property Name="ShortContent" Type="nvarchar" MaxLength="500" />
+    <Property Name="Content" Type="ntext" />
+    <Property Name="Url" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="CreateDate" Type="date" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="100" />
+    <Property Name="Modifiledate" Type="date" />
+    <Property Name="ModifileBy" Type="nvarchar" MaxLength="100" />
+    <Property Name="Active" Type="bit" />
+    <Property Name="DisplayOrder" Type="int" />
+    <Property Name="Location" Type="int" />
+    <Property Name="Hot" Type="bit" />
+  </EntityType>
+  <EntityType Name="Supplier">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="Alias" Type="varchar" MaxLength="100" />
+    <Property Name="Phone" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="Image" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="Logo" Type="varchar" MaxLength="250" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TagCategory">
+    <Key>
+      <PropertyRef Name="CategoryID" />
+      <PropertyRef Name="ProductID" />
+    </Key>
+    <Property Name="CategoryID" Type="bigint" Nullable="false" />
+    <Property Name="ProductID" Type="bigint" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="TagPost">
+    <Key>
+      <PropertyRef Name="CategoryID" />
+      <PropertyRef Name="PostID" />
+    </Key>
+    <Property Name="CategoryID" Type="bigint" Nullable="false" />
+    <Property Name="PostID" Type="bigint" Nullable="false" />
+    <Property Name="Active" Type="bit" />
+    <Property Name="TagName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="TagSize_Color">
+    <Key>
+      <PropertyRef Name="IDProduct" />
+      <PropertyRef Name="IDSize" />
+      <PropertyRef Name="IDColor" />
+    </Key>
+    <Property Name="IDProduct" Type="bigint" Nullable="false" />
+    <Property Name="IDSize" Type="int" Nullable="false" />
+    <Property Name="IDColor" Type="int" Nullable="false" />
+    <Property Name="Quantity" Type="int" />
+    <Property Name="DisplayOrder" Type="int" />
+  </EntityType>
+  <Association Name="FK_Assess_Member">
+    <End Role="Member" Type="Self.Member" Multiplicity="1" />
+    <End Role="Assess" Type="Self.Assess" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Assess">
+        <PropertyRef Name="IDProduct" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Assess_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="Assess" Type="Self.Assess" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Assess">
+        <PropertyRef Name="IDProduct" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CartItem_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="CartItem" Type="Self.CartItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CartItem">
+        <PropertyRef Name="IDProduct" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CartItem_ProductCarts">
+    <End Role="ProductCarts" Type="Self.ProductCarts" Multiplicity="1" />
+    <End Role="CartItem" Type="Self.CartItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductCarts">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CartItem">
+        <PropertyRef Name="IDCart" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Member_MemberCategories">
+    <End Role="MemberCategories" Type="Self.MemberCategories" Multiplicity="1" />
+    <End Role="Member" Type="Self.Member" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MemberCategories">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Member">
+        <PropertyRef Name="IDCategory" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MenuItem_Menu">
+    <End Role="Menu" Type="Self.Menu" Multiplicity="0..1" />
+    <End Role="MenuItem" Type="Self.MenuItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Menu">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="MenuItem">
+        <PropertyRef Name="IDMenu" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderItem_Orders">
+    <End Role="Orders" Type="Self.Orders" Multiplicity="1" />
+    <End Role="OrderItem" Type="Self.OrderItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Orders">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="OrderItem">
+        <PropertyRef Name="IDOrder" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderItem_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="OrderItem" Type="Self.OrderItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="OrderItem">
+        <PropertyRef Name="IDProduct" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Orders_Member">
+    <End Role="Member" Type="Self.Member" Multiplicity="1" />
+    <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Orders">
+        <PropertyRef Name="IdMember" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_Supplier">
+    <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supplier">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="SupplierID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductCarts_Member">
+    <End Role="Member" Type="Self.Member" Multiplicity="1" />
+    <End Role="ProductCarts" Type="Self.ProductCarts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ProductCarts">
+        <PropertyRef Name="CreateBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TagCategory_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="TagCategory" Type="Self.TagCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TagCategory">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TagCategory_ProductCategories">
+    <End Role="ProductCategories" Type="Self.ProductCategories" Multiplicity="1" />
+    <End Role="TagCategory" Type="Self.TagCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductCategories">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TagCategory">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TagPost_Post">
+    <End Role="Post" Type="Self.Post" Multiplicity="1" />
+    <End Role="TagPost" Type="Self.TagPost" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TagPost">
+        <PropertyRef Name="PostID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TagPost_PostCategories">
+    <End Role="PostCategories" Type="Self.PostCategories" Multiplicity="1" />
+    <End Role="TagPost" Type="Self.TagPost" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PostCategories">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TagPost">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TagSize_Color_Color">
+    <End Role="Color" Type="Self.Color" Multiplicity="1" />
+    <End Role="TagSize_Color" Type="Self.TagSize_Color" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Color">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TagSize_Color">
+        <PropertyRef Name="IDColor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TagSize_Color_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="TagSize_Color" Type="Self.TagSize_Color" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TagSize_Color">
+        <PropertyRef Name="IDProduct" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TagSize_Color_Size">
+    <End Role="Size" Type="Self.Size" Multiplicity="1" />
+    <End Role="TagSize_Color" Type="Self.TagSize_Color" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Size">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TagSize_Color">
+        <PropertyRef Name="IDSize" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ShopLyraModelStoreContainer">
+    <EntitySet Name="About" EntityType="Self.About" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Assess" EntityType="Self.Assess" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CartItem" EntityType="Self.CartItem" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Color" EntityType="Self.Color" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Config" EntityType="Self.Config" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FeedBack" EntityType="Self.FeedBack" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MemberCategories" EntityType="Self.MemberCategories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MenuItem" EntityType="Self.MenuItem" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OrderItem" EntityType="Self.OrderItem" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PostCategories" EntityType="Self.PostCategories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProductCarts" EntityType="Self.ProductCarts" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProductCategories" EntityType="Self.ProductCategories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Size" EntityType="Self.Size" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Sliders" EntityType="Self.Sliders" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TagCategory" EntityType="Self.TagCategory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TagPost" EntityType="Self.TagPost" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TagSize_Color" EntityType="Self.TagSize_Color" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Assess_Member" Association="Self.FK_Assess_Member">
+      <End Role="Member" EntitySet="Member" />
+      <End Role="Assess" EntitySet="Assess" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Assess_Product" Association="Self.FK_Assess_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="Assess" EntitySet="Assess" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CartItem_Product" Association="Self.FK_CartItem_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="CartItem" EntitySet="CartItem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CartItem_ProductCarts" Association="Self.FK_CartItem_ProductCarts">
+      <End Role="ProductCarts" EntitySet="ProductCarts" />
+      <End Role="CartItem" EntitySet="CartItem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Member_MemberCategories" Association="Self.FK_Member_MemberCategories">
+      <End Role="MemberCategories" EntitySet="MemberCategories" />
+      <End Role="Member" EntitySet="Member" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MenuItem_Menu" Association="Self.FK_MenuItem_Menu">
+      <End Role="Menu" EntitySet="Menu" />
+      <End Role="MenuItem" EntitySet="MenuItem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderItem_Orders" Association="Self.FK_OrderItem_Orders">
+      <End Role="Orders" EntitySet="Orders" />
+      <End Role="OrderItem" EntitySet="OrderItem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderItem_Product" Association="Self.FK_OrderItem_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="OrderItem" EntitySet="OrderItem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Orders_Member" Association="Self.FK_Orders_Member">
+      <End Role="Member" EntitySet="Member" />
+      <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_Supplier" Association="Self.FK_Product_Supplier">
+      <End Role="Supplier" EntitySet="Supplier" />
+      <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductCarts_Member" Association="Self.FK_ProductCarts_Member">
+      <End Role="Member" EntitySet="Member" />
+      <End Role="ProductCarts" EntitySet="ProductCarts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TagCategory_Product" Association="Self.FK_TagCategory_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="TagCategory" EntitySet="TagCategory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TagCategory_ProductCategories" Association="Self.FK_TagCategory_ProductCategories">
+      <End Role="ProductCategories" EntitySet="ProductCategories" />
+      <End Role="TagCategory" EntitySet="TagCategory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TagPost_Post" Association="Self.FK_TagPost_Post">
+      <End Role="Post" EntitySet="Post" />
+      <End Role="TagPost" EntitySet="TagPost" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TagPost_PostCategories" Association="Self.FK_TagPost_PostCategories">
+      <End Role="PostCategories" EntitySet="PostCategories" />
+      <End Role="TagPost" EntitySet="TagPost" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TagSize_Color_Color" Association="Self.FK_TagSize_Color_Color">
+      <End Role="Color" EntitySet="Color" />
+      <End Role="TagSize_Color" EntitySet="TagSize_Color" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TagSize_Color_Product" Association="Self.FK_TagSize_Color_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="TagSize_Color" EntitySet="TagSize_Color" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TagSize_Color_Size" Association="Self.FK_TagSize_Color_Size">
+      <End Role="Size" EntitySet="Size" />
+      <End Role="TagSize_Color" EntitySet="TagSize_Color" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,655 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ShopLyraModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="About">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="MetaTitle" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Desciption" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="0" />
+    <Property Name="CreateBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="ModifileDate" Type="DateTime" Precision="0" />
+    <Property Name="ModifileBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Active" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="Assess">
+    <Key>
+      <PropertyRef Name="IDProduct" />
+      <PropertyRef Name="IDMember" />
+    </Key>
+    <Property Name="IDProduct" Type="Int64" Nullable="false" />
+    <Property Name="IDMember" Type="Int64" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ShortContent" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="NumberStar" Type="Int32" />
+    <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Member" Relationship="Self.FK_Assess_Member" FromRole="Assess" ToRole="Member" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_Assess_Product" FromRole="Assess" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="CartItem">
+    <Key>
+      <PropertyRef Name="IDCart" />
+      <PropertyRef Name="IDProduct" />
+    </Key>
+    <Property Name="IDCart" Type="Int64" Nullable="false" />
+    <Property Name="IDProduct" Type="Int64" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="InsertDate" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_CartItem_Product" FromRole="CartItem" ToRole="Product" />
+    <NavigationProperty Name="ProductCart" Relationship="Self.FK_CartItem_ProductCarts" FromRole="CartItem" ToRole="ProductCarts" />
+  </EntityType>
+  <EntityType Name="Color">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Color1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DisplayOrder" Type="Int32" />
+    <NavigationProperty Name="TagSize_Color" Relationship="Self.FK_TagSize_Color_Color" FromRole="Color" ToRole="TagSize_Color" />
+  </EntityType>
+  <EntityType Name="Config">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+    <Property Name="ContentFooter" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="LinkFast" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="FacebookFanpage" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Contact" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CreateDate" Type="DateTime" Precision="0" />
+    <Property Name="CreateBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="ModifileDate" Type="DateTime" Precision="0" />
+    <Property Name="ModifileBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Active" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="FeedBack">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="MetaTitle" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="TitleContent" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ShortNote" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Active" Type="Boolean" />
+    <Property Name="Hot" Type="Boolean" />
+    <Property Name="DisplayOrder" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" />
+    <Property Name="Account" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Pssword" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="IDCategory" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Assesses" Relationship="Self.FK_Assess_Member" FromRole="Member" ToRole="Assess" />
+    <NavigationProperty Name="MemberCategory" Relationship="Self.FK_Member_MemberCategories" FromRole="Member" ToRole="MemberCategories" />
+    <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Member" FromRole="Member" ToRole="Orders" />
+    <NavigationProperty Name="ProductCarts" Relationship="Self.FK_ProductCarts_Member" FromRole="Member" ToRole="ProductCarts" />
+  </EntityType>
+  <EntityType Name="MemberCategory">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Status" Type="Boolean" />
+    <NavigationProperty Name="Members" Relationship="Self.FK_Member_MemberCategories" FromRole="MemberCategories" ToRole="Member" />
+  </EntityType>
+  <EntityType Name="Menu">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Url" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Active" Type="Boolean" />
+    <Property Name="ShowOnHome" Type="Boolean" />
+    <Property Name="DisplayOrder" Type="Int32" />
+    <NavigationProperty Name="MenuItems" Relationship="Self.FK_MenuItem_Menu" FromRole="Menu" ToRole="MenuItem" />
+  </EntityType>
+  <EntityType Name="MenuItem">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IDMenu" Type="Int32" />
+    <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Url" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Active" Type="Boolean" />
+    <Property Name="DisplayOrder" Type="Int32" />
+    <NavigationProperty Name="Menu" Relationship="Self.FK_MenuItem_Menu" FromRole="MenuItem" ToRole="Menu" />
+  </EntityType>
+  <EntityType Name="OrderItem">
+    <Key>
+      <PropertyRef Name="IDOrder" />
+      <PropertyRef Name="IDProduct" />
+    </Key>
+    <Property Name="IDOrder" Type="Int64" Nullable="false" />
+    <Property Name="IDProduct" Type="Int64" Nullable="false" />
+    <Property Name="QuantityPurchased" Type="Int32" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
+    <NavigationProperty Name="Order" Relationship="Self.FK_OrderItem_Orders" FromRole="OrderItem" ToRole="Orders" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_OrderItem_Product" FromRole="OrderItem" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" />
+    <Property Name="IdMember" Type="Int64" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="0" />
+    <Property Name="CreateBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Payment" Type="Int32" />
+    <Property Name="ShipDate" Type="DateTime" Precision="0" />
+    <Property Name="ShipBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="Boolean" />
+    <Property Name="Remove" Type="Boolean" />
+    <NavigationProperty Name="Member" Relationship="Self.FK_Orders_Member" FromRole="Orders" ToRole="Member" />
+    <NavigationProperty Name="OrderItems" Relationship="Self.FK_OrderItem_Orders" FromRole="Orders" ToRole="OrderItem" />
+  </EntityType>
+  <EntityType Name="Post">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="MetaTitle" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Images" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="DisplayOrder" Type="Int32" />
+    <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="0" />
+    <Property Name="CreateBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Modifiledate" Type="DateTime" Precision="0" />
+    <Property Name="ModifileBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Active" Type="Boolean" />
+    <Property Name="ShowOnHome" Type="Boolean" />
+    <Property Name="HotPost" Type="Boolean" />
+    <Property Name="Remove" Type="Boolean" />
+    <NavigationProperty Name="TagPosts" Relationship="Self.FK_TagPost_Post" FromRole="Post" ToRole="TagPost" />
+  </EntityType>
+  <EntityType Name="PostCategory">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="MetaTitle" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="DisplayOrder" Type="Int32" />
+    <Property Name="CreateDate" Type="DateTime" Precision="0" />
+    <Property Name="CreateBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Modifiledate" Type="DateTime" Precision="0" />
+    <Property Name="ModifileBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Active" Type="Boolean" />
+    <Property Name="ShowOnHome" Type="Boolean" />
+    <NavigationProperty Name="TagPosts" Relationship="Self.FK_TagPost_PostCategories" FromRole="PostCategories" ToRole="TagPost" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="MetaTitle" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Code" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Images" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" />
+    <Property Name="SupplierID" Type="Int32" Nullable="false" />
+    <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Warranty" Type="Int32" />
+    <Property Name="CreateDate" Type="DateTime" Precision="0" />
+    <Property Name="CreateBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Modifiledate" Type="DateTime" Precision="0" />
+    <Property Name="ModifileBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="DisplayOrder" Type="Int32" />
+    <Property Name="Status" Type="Boolean" />
+    <Property Name="Active" Type="Boolean" />
+    <Property Name="ShowOnHome" Type="Boolean" />
+    <Property Name="HotProduct" Type="Boolean" />
+    <Property Name="Remove" Type="Boolean" />
+    <NavigationProperty Name="Assesses" Relationship="Self.FK_Assess_Product" FromRole="Product" ToRole="Assess" />
+    <NavigationProperty Name="CartItems" Relationship="Self.FK_CartItem_Product" FromRole="Product" ToRole="CartItem" />
+    <NavigationProperty Name="OrderItems" Relationship="Self.FK_OrderItem_Product" FromRole="Product" ToRole="OrderItem" />
+    <NavigationProperty Name="Supplier" Relationship="Self.FK_Product_Supplier" FromRole="Product" ToRole="Supplier" />
+    <NavigationProperty Name="TagCategories" Relationship="Self.FK_TagCategory_Product" FromRole="Product" ToRole="TagCategory" />
+    <NavigationProperty Name="TagSize_Color" Relationship="Self.FK_TagSize_Color_Product" FromRole="Product" ToRole="TagSize_Color" />
+  </EntityType>
+  <EntityType Name="ProductCart">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CreateBy" Type="Int64" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
+    <NavigationProperty Name="CartItems" Relationship="Self.FK_CartItem_ProductCarts" FromRole="ProductCarts" ToRole="CartItem" />
+    <NavigationProperty Name="Member" Relationship="Self.FK_ProductCarts_Member" FromRole="ProductCarts" ToRole="Member" />
+  </EntityType>
+  <EntityType Name="ProductCategory">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="MetaTitle" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="DisplayOrder" Type="Int32" />
+    <Property Name="SeoTitle" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Image" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Logo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="0" />
+    <Property Name="CreateBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Modifiledate" Type="DateTime" Precision="0" />
+    <Property Name="ModifileBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Active" Type="Boolean" />
+    <Property Name="ShowOnHome" Type="Boolean" />
+    <NavigationProperty Name="TagCategories" Relationship="Self.FK_TagCategory_ProductCategories" FromRole="ProductCategories" ToRole="TagCategory" />
+  </EntityType>
+  <EntityType Name="Size">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Size1" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="DisplayOrder" Type="Int32" />
+    <NavigationProperty Name="TagSize_Color" Relationship="Self.FK_TagSize_Color_Size" FromRole="Size" ToRole="TagSize_Color" />
+  </EntityType>
+  <EntityType Name="Slider">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Image" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="MetaTitle" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="ShortContent" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Url" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="0" />
+    <Property Name="CreateBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Modifiledate" Type="DateTime" Precision="0" />
+    <Property Name="ModifileBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Active" Type="Boolean" />
+    <Property Name="DisplayOrder" Type="Int32" />
+    <Property Name="Location" Type="Int32" />
+    <Property Name="Hot" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="Supplier">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Alias" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Image" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Logo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Products" Relationship="Self.FK_Product_Supplier" FromRole="Supplier" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="TagCategory">
+    <Key>
+      <PropertyRef Name="CategoryID" />
+      <PropertyRef Name="ProductID" />
+    </Key>
+    <Property Name="CategoryID" Type="Int64" Nullable="false" />
+    <Property Name="ProductID" Type="Int64" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_TagCategory_Product" FromRole="TagCategory" ToRole="Product" />
+    <NavigationProperty Name="ProductCategory" Relationship="Self.FK_TagCategory_ProductCategories" FromRole="TagCategory" ToRole="ProductCategories" />
+  </EntityType>
+  <EntityType Name="TagPost">
+    <Key>
+      <PropertyRef Name="CategoryID" />
+      <PropertyRef Name="PostID" />
+    </Key>
+    <Property Name="CategoryID" Type="Int64" Nullable="false" />
+    <Property Name="PostID" Type="Int64" Nullable="false" />
+    <Property Name="Active" Type="Boolean" />
+    <Property Name="TagName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Post" Relationship="Self.FK_TagPost_Post" FromRole="TagPost" ToRole="Post" />
+    <NavigationProperty Name="PostCategory" Relationship="Self.FK_TagPost_PostCategories" FromRole="TagPost" ToRole="PostCategories" />
+  </EntityType>
+  <EntityType Name="TagSize_Color">
+    <Key>
+      <PropertyRef Name="IDProduct" />
+      <PropertyRef Name="IDSize" />
+      <PropertyRef Name="IDColor" />
+    </Key>
+    <Property Name="IDProduct" Type="Int64" Nullable="false" />
+    <Property Name="IDSize" Type="Int32" Nullable="false" />
+    <Property Name="IDColor" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" />
+    <Property Name="DisplayOrder" Type="Int32" />
+    <NavigationProperty Name="Color" Relationship="Self.FK_TagSize_Color_Color" FromRole="TagSize_Color" ToRole="Color" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_TagSize_Color_Product" FromRole="TagSize_Color" ToRole="Product" />
+    <NavigationProperty Name="Size" Relationship="Self.FK_TagSize_Color_Size" FromRole="TagSize_Color" ToRole="Size" />
+  </EntityType>
+  <Association Name="FK_Assess_Member">
+    <End Role="Member" Type="Self.Member" Multiplicity="1" />
+    <End Role="Assess" Type="Self.Assess" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Assess">
+        <PropertyRef Name="IDProduct" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Assess_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="Assess" Type="Self.Assess" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Assess">
+        <PropertyRef Name="IDProduct" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CartItem_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="CartItem" Type="Self.CartItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CartItem">
+        <PropertyRef Name="IDProduct" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CartItem_ProductCarts">
+    <End Role="ProductCarts" Type="Self.ProductCart" Multiplicity="1" />
+    <End Role="CartItem" Type="Self.CartItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductCarts">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CartItem">
+        <PropertyRef Name="IDCart" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TagSize_Color_Color">
+    <End Role="Color" Type="Self.Color" Multiplicity="1" />
+    <End Role="TagSize_Color" Type="Self.TagSize_Color" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Color">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TagSize_Color">
+        <PropertyRef Name="IDColor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Member_MemberCategories">
+    <End Role="MemberCategories" Type="Self.MemberCategory" Multiplicity="1" />
+    <End Role="Member" Type="Self.Member" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MemberCategories">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Member">
+        <PropertyRef Name="IDCategory" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Orders_Member">
+    <End Role="Member" Type="Self.Member" Multiplicity="1" />
+    <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Orders">
+        <PropertyRef Name="IdMember" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductCarts_Member">
+    <End Role="Member" Type="Self.Member" Multiplicity="1" />
+    <End Role="ProductCarts" Type="Self.ProductCart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ProductCarts">
+        <PropertyRef Name="CreateBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MenuItem_Menu">
+    <End Role="Menu" Type="Self.Menu" Multiplicity="0..1" />
+    <End Role="MenuItem" Type="Self.MenuItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Menu">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="MenuItem">
+        <PropertyRef Name="IDMenu" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderItem_Orders">
+    <End Role="Orders" Type="Self.Order" Multiplicity="1" />
+    <End Role="OrderItem" Type="Self.OrderItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Orders">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="OrderItem">
+        <PropertyRef Name="IDOrder" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderItem_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="OrderItem" Type="Self.OrderItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="OrderItem">
+        <PropertyRef Name="IDProduct" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TagPost_Post">
+    <End Role="Post" Type="Self.Post" Multiplicity="1" />
+    <End Role="TagPost" Type="Self.TagPost" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TagPost">
+        <PropertyRef Name="PostID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TagPost_PostCategories">
+    <End Role="PostCategories" Type="Self.PostCategory" Multiplicity="1" />
+    <End Role="TagPost" Type="Self.TagPost" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PostCategories">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TagPost">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_Supplier">
+    <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supplier">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="SupplierID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TagCategory_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="TagCategory" Type="Self.TagCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TagCategory">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TagSize_Color_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="TagSize_Color" Type="Self.TagSize_Color" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TagSize_Color">
+        <PropertyRef Name="IDProduct" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TagCategory_ProductCategories">
+    <End Role="ProductCategories" Type="Self.ProductCategory" Multiplicity="1" />
+    <End Role="TagCategory" Type="Self.TagCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductCategories">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TagCategory">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TagSize_Color_Size">
+    <End Role="Size" Type="Self.Size" Multiplicity="1" />
+    <End Role="TagSize_Color" Type="Self.TagSize_Color" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Size">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TagSize_Color">
+        <PropertyRef Name="IDSize" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ShopLyraEntity" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Abouts" EntityType="Self.About" />
+    <EntitySet Name="Assesses" EntityType="Self.Assess" />
+    <EntitySet Name="CartItems" EntityType="Self.CartItem" />
+    <EntitySet Name="Colors" EntityType="Self.Color" />
+    <EntitySet Name="Configs" EntityType="Self.Config" />
+    <EntitySet Name="FeedBacks" EntityType="Self.FeedBack" />
+    <EntitySet Name="Members" EntityType="Self.Member" />
+    <EntitySet Name="MemberCategories" EntityType="Self.MemberCategory" />
+    <EntitySet Name="Menus" EntityType="Self.Menu" />
+    <EntitySet Name="MenuItems" EntityType="Self.MenuItem" />
+    <EntitySet Name="OrderItems" EntityType="Self.OrderItem" />
+    <EntitySet Name="Orders" EntityType="Self.Order" />
+    <EntitySet Name="Posts" EntityType="Self.Post" />
+    <EntitySet Name="PostCategories" EntityType="Self.PostCategory" />
+    <EntitySet Name="Products" EntityType="Self.Product" />
+    <EntitySet Name="ProductCarts" EntityType="Self.ProductCart" />
+    <EntitySet Name="ProductCategories" EntityType="Self.ProductCategory" />
+    <EntitySet Name="Sizes" EntityType="Self.Size" />
+    <EntitySet Name="Sliders" EntityType="Self.Slider" />
+    <EntitySet Name="Suppliers" EntityType="Self.Supplier" />
+    <EntitySet Name="TagCategories" EntityType="Self.TagCategory" />
+    <EntitySet Name="TagPosts" EntityType="Self.TagPost" />
+    <EntitySet Name="TagSize_Color" EntityType="Self.TagSize_Color" />
+    <AssociationSet Name="FK_Assess_Member" Association="Self.FK_Assess_Member">
+      <End Role="Member" EntitySet="Members" />
+      <End Role="Assess" EntitySet="Assesses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Assess_Product" Association="Self.FK_Assess_Product">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Assess" EntitySet="Assesses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CartItem_Product" Association="Self.FK_CartItem_Product">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="CartItem" EntitySet="CartItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CartItem_ProductCarts" Association="Self.FK_CartItem_ProductCarts">
+      <End Role="ProductCarts" EntitySet="ProductCarts" />
+      <End Role="CartItem" EntitySet="CartItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TagSize_Color_Color" Association="Self.FK_TagSize_Color_Color">
+      <End Role="Color" EntitySet="Colors" />
+      <End Role="TagSize_Color" EntitySet="TagSize_Color" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Member_MemberCategories" Association="Self.FK_Member_MemberCategories">
+      <End Role="MemberCategories" EntitySet="MemberCategories" />
+      <End Role="Member" EntitySet="Members" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Orders_Member" Association="Self.FK_Orders_Member">
+      <End Role="Member" EntitySet="Members" />
+      <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductCarts_Member" Association="Self.FK_ProductCarts_Member">
+      <End Role="Member" EntitySet="Members" />
+      <End Role="ProductCarts" EntitySet="ProductCarts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MenuItem_Menu" Association="Self.FK_MenuItem_Menu">
+      <End Role="Menu" EntitySet="Menus" />
+      <End Role="MenuItem" EntitySet="MenuItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderItem_Orders" Association="Self.FK_OrderItem_Orders">
+      <End Role="Orders" EntitySet="Orders" />
+      <End Role="OrderItem" EntitySet="OrderItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderItem_Product" Association="Self.FK_OrderItem_Product">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="OrderItem" EntitySet="OrderItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TagPost_Post" Association="Self.FK_TagPost_Post">
+      <End Role="Post" EntitySet="Posts" />
+      <End Role="TagPost" EntitySet="TagPosts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TagPost_PostCategories" Association="Self.FK_TagPost_PostCategories">
+      <End Role="PostCategories" EntitySet="PostCategories" />
+      <End Role="TagPost" EntitySet="TagPosts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_Supplier" Association="Self.FK_Product_Supplier">
+      <End Role="Supplier" EntitySet="Suppliers" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TagCategory_Product" Association="Self.FK_TagCategory_Product">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="TagCategory" EntitySet="TagCategories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TagSize_Color_Product" Association="Self.FK_TagSize_Color_Product">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="TagSize_Color" EntitySet="TagSize_Color" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TagCategory_ProductCategories" Association="Self.FK_TagCategory_ProductCategories">
+      <End Role="ProductCategories" EntitySet="ProductCategories" />
+      <End Role="TagCategory" EntitySet="TagCategories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TagSize_Color_Size" Association="Self.FK_TagSize_Color_Size">
+      <End Role="Size" EntitySet="Sizes" />
+      <End Role="TagSize_Color" EntitySet="TagSize_Color" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,91 @@
+﻿@using ShopLyraAPP.Models;
+@model IEnumerable<About>
+
+@{
+    ViewBag.Title = "About";
+    Layout = "~/Views/Shared/_AdminLayoutPage.cshtml";
+}
+
+
+<div class="mb-3">
+    <a href="/Config/AddOrUpdateAbout" type="button" class="btn btn-success btn-lg ">
+        <i class="far fa-plus mr-1"></i> Thêm mới
+    </a>
+</div>
+
+<div class="mt-4 mb-4 p-3 bg-white border shadow-sm lh-sm">
+    <div class="table-responsive product-list">
+        <table class="table table-bordered table-striped mt-3" id="SupplierList">
+            <thead>
+                <tr>
+                    <th>Tên công ty</th>
+                    <th>Miêu tả</th>
+                    <th>Ngày viết</th>
+                    <th>Người viết</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                @foreach (About about in Model)
+                {
+                    <tr id="row-@about.ID">
+
+                        <td>@about.Name</td>
+                        <td>@about.Desciption</td>
+                        <td>@about.CreateDate.Value.ToString("dd/MM/yyyy")</td>
+                        <td>@about.CreateBy</td>
+                        <td>
+                            @if(about.Active==true)
+                            {
+                                <i class="fas fa-check-circle"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-times-square"></i>
+                            }
+                        </td>
+                        <td>
+                            <a href="/Config/AddOrUpdateAbout/@about.ID" class="btn btn-success" title="Sửa"><i class="fal fa-edit"></i></a>
+                            <button class="btn btn-warning" onclick="DeleteSupplier(@about.ID)" title="Xóa"><i class="fal fa-trash-alt"></i></button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<style>
+    #table-body img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+    }
+</style>
+
+@section scripts{
+    <script>
+        $("#SupplierList").DataTable();
+        function DeleteSupplier(supplierID) {
+            if (confirm("Bạn có chắc muốn xóa nhà cung cấp đã chọn không?")) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Config/DeleteAbout",
+                    data: { id: supplierID },
+                    success: function (res) {
+                        if (res == true) {
+                            $("#row-" + supplierID).remove();
+                            alert("Xóa thành công!");
+                        }
+                        else {
+                            alert("Không tìm thấy. Load lại trang!")
+                        }
+                    }
+                })
+            }
+        }
+    </script>
+}
+

@@ -1,0 +1,258 @@
+﻿@using ShopLyraAPP.Models;
+@model Product
+
+@{
+    ViewBag.Title = "CreateProduct";
+    Layout = "~/Views/Shared/_AdminLayoutPage.cshtml";
+    IEnumerable<ProductCategory> listCategories = ViewBag.ProductCategories;
+    IEnumerable<Supplier> listSupplier = ViewBag.Suppliers;
+    IEnumerable<Size> listSize = ViewBag.Sizes;
+    IEnumerable<Color> listColor = ViewBag.Colors;
+}
+<h2>Sản phẩm mới</h2>
+
+@using (Html.BeginForm("CreateProduct","ProductManagement",FormMethod.Post,new { enctype = "multipart/form-data" }))
+{
+    <hr />
+    <div class="form-horizontal container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <div class="col-form-label col-md-4">
+                        <label>Tên sản phẩm</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input name="Name" class="form-control" placeholder="Tên sản phẩm" maxlength="250" required />
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-form-label col-md-4">
+                        <label>Giá tiền</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input name="Price" class="form-control" placeholder="Giá tiền" required />
+                        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-form-label col-md-4">
+                        <label>Nhà cung cấp</label>
+                    </div>
+                    <div class="col-md-8">
+                        <select name="SupplierID" class="form-control" style="background-image:none">
+                            <option value="">Chọn nhà sản xuất</option>
+                            @foreach (Supplier supplier in listSupplier)
+                            {
+                                <option value="@supplier.ID">@supplier.Name</option>
+                            }
+                        </select>
+                        @Html.ValidationMessageFor(model => model.SupplierID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-form-label col-md-4">
+                        <label>Ngày tạo</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="date" name="CreateDate" class="form-control" />
+                        @Html.ValidationMessageFor(model => model.CreateDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-form-label col-md-4">
+                        <label>Trạng thái</label>
+                    </div>
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-form-label col-md-4">
+                        <label>Active</label>
+                    </div>
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Active, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Active, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row ">
+                    <div class="col-form-label col-md-4">
+                        <label>Thứ tự hiển thị</label>
+                    </div>
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.DisplayOrder, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DisplayOrder, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <div class="col-form-label col-md-4">
+                        <label>Mã sản phẩm</label>
+                    </div>
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-form-label col-md-4">
+                        <label>Tồn kho</label>
+                    </div>
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-form-label col-md-4">
+                        <label>Đổi trả</label>
+                    </div>
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Warranty, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Warranty, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-form-label col-md-4">
+                        <label>Người tạo</label>
+                    </div>
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.CreateBy, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CreateBy, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.ShowOnHome, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.ShowOnHome, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ShowOnHome, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.HotProduct, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.HotProduct, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.HotProduct, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-form-label col-md-4">
+                        <label>Danh mục sản phẩm</label>
+                    </div>
+                    <div class="col-md-8">
+                        <select multiple name="categories" class="combobox form-control">
+                            @foreach (ProductCategory productCategory in listCategories)
+                            {
+                                <option value="@productCategory.ID">@productCategory.Name</option>
+                            }
+                        </select>
+                        @Html.ValidationMessageFor(model => model.DisplayOrder, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-md-2">
+                Hình ảnh
+            </div>
+            <div class="col-md-10">
+                <input type="file" class="mb-3" name="selectImages" id="fildes" onchange="loadFile(event)" multiple />
+                <div id="images-group">
+                    <div class="row no-gutters">
+                    </div>  
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-form-label col-md-2">
+                <label>Miêu tả ngắn</label>
+            </div>
+            <div class="col-md-10">
+                <textarea class="ckeditor"></textarea>
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-form-label col-md-2">
+                <label>Miêu tả</label>
+            </div>
+            <div class="col-md-10">
+                <textarea class="ckeditor"></textarea>
+                @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group ">
+            <div class="col-md-offset-4 col-md-10">
+                <input type="submit" value="Submit" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+<div>
+    <a href="/ProductManagement/Index" class="btn btn-outline-dark">Quay lại</a>
+</div>
+
+<style>
+    select.form-control {
+        background-image: none;
+    }
+    #images-group .multipleImage {
+        width: 100%;
+        height: 80px;
+        object-fit: cover;
+    }
+    images-group .multiple-images-wrapper a {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 1px 6px;
+        font-size: 10px;
+    }
+</style>
+@section scripts
+{
+    <script src="~/Scripts/chosen.jquery.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".combobox").chosen();
+        });
+        function loadFile(event) {
+            var files = event.target.files;
+            var totalImg = $("#images-group .row .multiple-images-wrapper").length;
+            if (totalImg >= 10) {
+                alert("Chỉ đăng tối đa 10 ảnh");
+                return false;
+            }
+            var plusImage = totalImg + files.length;
+            if (plusImage >= 11) {
+                alert("Chỉ đăng tối đa 10 ảnh");
+                return false;
+            }
+            var acceptFileTypes = /^image\/(gif|jpe?g|png)$/i;
+            for (var i = 0; i < files.length; i++) {
+                if (files[0]["type"].length && !acceptFileTypes.test(files[0]["type"])) {
+                    alert("Chỉ chấp nhận định dạng jpeg, jpg, png, gif");
+                    return false;
+                }
+                if (files[0]["size"] > 4000000) {
+                    alert("Dung lượng ảnh lớn hơn 4MB");
+                    return false;
+                }
+                $("#images-group .row").append('<div class="multiple-images-wrapper col-md-1"><input type="hidden" name="image" value="' + files[i].name + '"><img src="' + URL.createObjectURL(event.target.files[i]) + '" class="multipleImage img-thumbnail" /><a href="javascript:;" id="' + i + '" class="btn btn-outline-dark" onclick="deleteImage(' + i + ')"><span>x</span></a></div>');
+            }
+        }
+        function deleteImage(divid) {
+            if (confirm('Bạn có chắc xóa ảnh này?')) {
+                $('#' + divid).parent().fadeOut().remove();
+            }
+        }
+    </script>
+}

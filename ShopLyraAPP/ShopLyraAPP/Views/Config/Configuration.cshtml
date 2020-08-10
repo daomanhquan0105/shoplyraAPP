@@ -1,0 +1,87 @@
+﻿@using ShopLyraAPP.Models;
+@model IEnumerable<Config>
+@{
+    ViewBag.Title = "Configuration";
+    Layout = "~/Views/Shared/_AdminLayoutPage.cshtml";
+}
+
+<div class="mb-3">
+    <a href="/Config/AddOrUpdateConfig" type="button" class="btn btn-success btn-lg ">
+        <i class="far fa-plus mr-1"></i> Thêm mới
+    </a>
+</div>
+
+<div class="mt-4 mb-4 p-3 bg-white border shadow-sm lh-sm">
+    <div class="table-responsive product-list">
+        <table class="table table-bordered table-striped mt-3" id="configList">
+            <thead>
+                <tr>
+                    <th>Số điện thoại</th>
+                    <th>Địa chỉ</th>
+                    <th>Link</th>
+                    <th>Link facebook</th>
+                    <th>Liên hệ</th>
+                    <th>Ngày tạo</th>
+                    <th>Người tạo</th>
+                    <th>Hiển thị</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+            @foreach (Config config in Model)
+            {
+                <tr id="row-@config.ID">
+
+                    <td>@config.Phone</td>
+                    <td>@Html.Raw(config.Address)</td>
+                    <td>@Html.Raw(config.LinkFast)</td>
+                    <td>@Html.Raw(config.FacebookFanpage)</td>
+                    <td>@Html.Raw(config.Contact)</td>
+                    <td>@config.CreateDate.Value.ToString("dd/MM/yyyy")</td>
+                    <td>@config.CreateBy</td>
+                    <td>
+                        @if (config.Active == true)
+                        {
+                            <i class="fas fa-check-circle"></i>
+                        }
+                        else
+                        {
+                            <i class="fas fa-times-square"></i>
+                        }
+                    </td>
+                    <td>
+                        <a href="/Config/AddOrUpdateConfig/@config.ID" class="btn btn-success" title="Sửa"><i class="fal fa-edit"></i></a>
+                        <button class="btn btn-warning" onclick="deleteSlider(@config.ID)" title="Xóa"><i class="fal fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+@section scripts{
+    <script>
+        $("#configList").DataTable();
+        function deleteSlider(configID) {
+            if (confirm("Bạn có chắc muốn xóa nhà cung cấp đã chọn không?")) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Config/DeleteConfig",
+                    data: { id: configID },
+                    success: function (res) {
+                        if (res == true) {
+                            $("#row-" + configID).remove();
+                            alert("Xóa thành công!");
+                        }
+                        else {
+                            alert("Không tìm thấy. Load lại trang!")
+                        }
+                    }
+                })
+            }
+        }
+    </script>
+}
+

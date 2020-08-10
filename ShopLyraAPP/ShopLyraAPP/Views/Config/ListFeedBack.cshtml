@@ -1,0 +1,94 @@
+﻿@using ShopLyraAPP.Models;
+@model IEnumerable<FeedBack>
+@{
+    ViewBag.Title = "ListFeedBack";
+    Layout = "~/Views/Shared/_AdminLayoutPage.cshtml";
+}
+
+
+<div class="mb-3">
+    <a href="/Config/AddOrUpdateFeedBack" type="button" class="btn btn-success btn-lg ">
+        <i class="far fa-plus mr-1"></i> Thêm mới
+    </a>
+</div>
+
+<div class="mt-4 mb-4 p-3 bg-white border shadow-sm lh-sm">
+    <div class="table-responsive product-list">
+        <table class="table table-bordered table-striped mt-3" id="FeedBackList">
+            <thead>
+                <tr>
+                    <th>Tên khách hàng</th>
+                    <th>Hình ảnh</th>
+                    <th>Tiêu đề</th>
+                    <th>Nội dung ngắn</th>
+                    <th>Trình tự</th>
+                    <th>Trạng thái</th>
+                    <th>Nổi bật</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                @foreach (FeedBack feedBack in Model)
+                {
+                    <tr id="row-@feedBack.ID">
+                        <td>@feedBack.Name</td>
+                        <td><img src="/images/feedBack/@feedBack.Image" /></td>
+                        <td>@feedBack.TitleContent</td>
+                        <td>@feedBack.ShortNote</td>
+                        <td>@feedBack.DisplayOrder</td>
+                        <td>
+                            @if (feedBack.Active == true)
+                            {
+                                <i class="fas fa-check-circle"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-times-square"></i>
+                            }
+                        </td>
+                        <td>
+                            @if (feedBack.Hot == true)
+                            {
+                                <i class="fas fa-check-circle"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-times-square"></i>
+                            }
+                        </td>
+                        <td>
+                            <a href="/Config/AddOrUpdateFeedBack/@feedBack.ID" class="btn btn-success" title="Sửa"><i class="fal fa-edit"></i></a>
+                            <button class="btn btn-warning" onclick="deletefeedBack(@feedBack.ID)" title="Xóa"><i class="fal fa-trash-alt"></i></button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+@section scripts{
+    <script>
+        $("#FeedBackList").DataTable();
+        function deletefeedBack(feedBackID) {
+            if (confirm("Bạn có chắc muốn xóa nhà cung cấp đã chọn không?")) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Config/DeletefeedBack",
+                    data: { id: feedBackID },
+                    success: function (res) {
+                        if (res == true) {
+                            $("#row-" + feedBackID).remove();
+                            alert("Xóa thành công!");
+                        }
+                        else {
+                            alert("Không tìm thấy. Load lại trang!")
+                        }
+                    }
+                })
+            }
+        }
+    </script>
+}
+
